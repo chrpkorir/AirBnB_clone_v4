@@ -6,8 +6,6 @@ import uuid
 
 #flask setup
 app = Flask(__name__)
-# app.jinja_env.trim_blocks = True
-# app.jinja_env.lstrip_blocks = True
 
 
 #begin flask page rendering
@@ -20,19 +18,19 @@ def close_db(error):
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
     """ HBNB is alive! """
-    states = storage.all(State).values()
+    states = storage.all('State').values()
     states = sorted(states, key=lambda k: k.name)
     st_ct = []
 
     for state in states:
         st_ct.append([state, sorted(state.cities, key=lambda k: k.name)])
 
-    amenities = storage.all(Amenity).values()
+    amenities = storage.all('Amenity').values()
     amenities = sorted(amenities, key=lambda k: k.name)
 
-    places = storage.all(Place).values()
+    places = storage.all('Place').values()
     places = sorted(places, key=lambda k: k.name)
-
+    cache_id = uuid.uuid4()
     return render_template('0-hbnb.html',
                            states=st_ct,
                            amenities=amenities,
